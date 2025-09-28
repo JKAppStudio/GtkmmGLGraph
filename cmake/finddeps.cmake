@@ -38,11 +38,17 @@ find_path(LIBZSTD_PATH
     PATHS ${PKG_CONFIG_PREFIX}/zstd/${PKG_CONFIG_POSTFIX}
 )
 
+find_path(LIBEPOXY_PATH
+    NAMES epoxy.pc
+    PATHS ${PKG_CONFIG_PREFIX}/libepoxy/${PKG_CONFIG_POSTFIX}
+)
+
 # Expose as a cache variable so user can override in cmake-gui / ccmake
 set(PKG_CONFIG_PATH "\
 ${GTKMM4_PATH}\
 :${LIBJPEG_PATH}\
 :${LIBZSTD_PATH}\
+:${LIBEPOXY_PATH}\
 :$ENV{PKG_CONFIG_PATH}\
 "
     CACHE STRING "Path for pkg-config to search .pc files")
@@ -53,4 +59,5 @@ message(STATUS "Using PKG_CONFIG_PATH: ${PKG_CONFIG_PATH}")
 set(ENV{PKG_CONFIG_PATH} "${PKG_CONFIG_PATH}")
 
 pkg_check_modules(GTKMM REQUIRED gtkmm-4.0)
+pkg_check_modules(EPOXY REQUIRED epoxy)
 
