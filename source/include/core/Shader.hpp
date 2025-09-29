@@ -20,7 +20,7 @@ namespace GLGraph {
 
 typedef struct Shader {
     Shader() : program(0) {}
-    void init(const std::string& vertexSource, const std::string& fragmentSource);
+    void init(const std::string& vertexSource, const std::string& geometrySource, const std::string& fragmentSource);
 
     /**
      * @brief Check OpenGL shader compilation status

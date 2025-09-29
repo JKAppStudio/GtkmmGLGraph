@@ -15,12 +15,18 @@
 namespace Gtkmm {
 namespace GLGraph {
 
-void Shader::init(const std::string& vertexSource, const std::string& fragmentSource) {
+void Shader::init(const std::string& vertexSource, const std::string& geometrySource, const std::string& fragmentSource) {
     GLint vertexShader = glCreateShader(GL_VERTEX_SHADER);
     const char* vSrc = vertexSource.c_str();
     glShaderSource(vertexShader, 1, &vSrc, nullptr);
     glCompileShader(vertexShader);
     check_shader_compile(vertexShader, "VERTEX");
+
+    GLint geometryShader = glCreateShader(GL_GEOMETRY_SHADER);
+    const char* gSrc = geometrySource.c_str();
+    glShaderSource(geometryShader, 1, &gSrc, nullptr);
+    glCompileShader(geometryShader);
+    check_shader_compile(geometryShader, "GEOMETRY");
 
     GLint fragmentShader = glCreateShader(GL_FRAGMENT_SHADER);
     const char* fSrc = fragmentSource.c_str();
@@ -31,6 +37,7 @@ void Shader::init(const std::string& vertexSource, const std::string& fragmentSo
     // Link program
     program = glCreateProgram();
     glAttachShader(program, vertexShader);
+    glAttachShader(program, geometryShader);
     glAttachShader(program, fragmentShader);
     glLinkProgram(program);
     check_program_link(program);

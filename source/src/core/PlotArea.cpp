@@ -36,7 +36,6 @@ bool Gtkmm::GLGraph::PlotArea::on_render(const Glib::RefPtr<Gdk::GLContext> &con
     // std::cout << "On render" << std::endl;
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
     _renderer.draw_axes(_axes);
-    glFlush();
 
     return true;
 }
@@ -45,6 +44,7 @@ void PlotArea::on_realize(void)
 {
     Gtk::GLArea::on_realize();
     make_current();
+    std::cout << "OpenGL version: " << glGetString(GL_VERSION) << std::endl;
     glClearColor(0.2f, 0.3f, 0.8f, 1.0f);
     _renderer.init();
     // Check for context errors

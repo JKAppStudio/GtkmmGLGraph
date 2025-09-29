@@ -63,7 +63,7 @@ inline bool Renderer::draw_axes(const std::vector<Axis<T>>& axes)
     glUseProgram(_axisShader.program);
     glBindVertexArray(_axes_va);
     // glDrawArrays(GL_TRIANGLES, 0, 3);
-    glDrawArrays(GL_LINE_LOOP, 0, 3);
+    glDrawArrays(GL_POINTS, 0, 3);
 
     glBindVertexArray(0);
     glUseProgram(0);
