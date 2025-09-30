@@ -13,7 +13,7 @@
 #define __GTKMM_PLOT_AREA_HPP__
 
 #include "Axis.hpp"
-#include "Renderer.hpp"
+#include "XYAxisRenderer.hpp"
 
 #include <gtkmm/glarea.h>
 #include <vector>
@@ -33,9 +33,8 @@ protected:
     void on_unrealize(void) override;
 
 private:
-    std::vector<Axis<float>> _axes;
-
-    Renderer _renderer;
+    std::vector<Axis> _axes;
+    XYAxisRenderer _axes_renderer;
 };
 
 } // namespace GLGraph

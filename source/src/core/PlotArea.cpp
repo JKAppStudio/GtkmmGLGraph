@@ -26,6 +26,7 @@ PlotArea::PlotArea(void)
     signal_render().connect(sigc::mem_fun(*this, &PlotArea::on_render), false);
 
     _axes.emplace_back(AXIS_X, "X Axis", -10.0f, 10.0f);
+    _axes.emplace_back(AXIS_Y, "Y Axis", -10.0f, 10.0f);
 }
 
 PlotArea::~PlotArea(void)
@@ -33,9 +34,8 @@ PlotArea::~PlotArea(void)
 
 bool Gtkmm::GLGraph::PlotArea::on_render(const Glib::RefPtr<Gdk::GLContext> &context)
 {
-    // std::cout << "On render" << std::endl;
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-    _renderer.draw_axes(_axes);
+    _axes_renderer.draw_axes(_axes);
 
     return true;
 }
@@ -45,8 +45,9 @@ void PlotArea::on_realize(void)
     Gtk::GLArea::on_realize();
     make_current();
     std::cout << "OpenGL version: " << glGetString(GL_VERSION) << std::endl;
+
     glClearColor(0.2f, 0.3f, 0.8f, 1.0f);
-    _renderer.init();
+    _axes_renderer.init();
     // Check for context errors
     if (glGetError() != GL_NO_ERROR) {
         std::cerr << "OpenGL context creation failed." << std::endl;
@@ -56,7 +57,8 @@ void PlotArea::on_realize(void)
 
 void Gtkmm::GLGraph::PlotArea::on_unrealize(void)
 {
-    _renderer.cleanup();
     // Must call base implementation last
     Gtk::GLArea::on_unrealize();
+    
+    _axes_renderer.cleanup();
 }

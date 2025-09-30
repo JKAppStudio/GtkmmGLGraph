@@ -15,6 +15,7 @@
 #include "PlotArea.hpp"
 
 #include <gtkmm/grid.h>
+#include <gtkmm/label.h>
 #include <epoxy/gl.h>
 
 namespace Gtkmm {

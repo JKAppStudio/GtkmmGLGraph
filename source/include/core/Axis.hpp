@@ -31,29 +31,28 @@ typedef enum {
     GRID_BOTH
 } GridLines;
 
-template <typename T>
-class Axis {
-    static_assert(std::is_arithmetic<T>::value, "T must be a numeric type");
+class Axis 
+{
 public:
-    Axis(AxisType type, const std::string& label, T min = 0, T max = 10)
+    Axis(AxisType type, const std::string& label, float min = 0, float max = 10)
         : _type(type), _label(label), _min(min), _max(max) {}
-    ~Axis() {}
+    ~Axis(void) {}
 
-    AxisType type() const { return _type; }
-    T min() const { return _min; }
-    T max() const { return _max; }
-    std::string label() const { return _label; }
+    AxisType type(void) const { return _type; }
+    float min(void) const { return _min; }
+    float max(void) const { return _max; }
+    std::string label(void) const { return _label; }
 
-    void set_min(T value) { _min = value; }
-    void set_max(T value) { _max = value; }
+    void set_min(float value) { _min = value; }
+    void set_max(float value) { _max = value; }
     void set_label(const std::string& text) { _label = text; }
 
 private:
     AxisType _type;
     std::string _label;
     GridLines _grid = GRID_BOTH;
-    T _min;
-    T _max;
+    float _min;
+    float _max;
 };
 
 } // namespace GLGraph
