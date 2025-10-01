@@ -12,6 +12,7 @@
 #include "Renderer.hpp"
 #include <iostream>
 
+
 namespace Gtkmm {
 namespace GLGraph {
 
@@ -20,7 +21,32 @@ Renderer::~Renderer(void)
     cleanup_internal();
 }
 
-void Renderer::init_internal(const std::string& vertexSource, const std::string& geometrySource, const std::string& fragmentSource)
+bool Renderer::draw_points(const std::vector<Vertex> &points)
+{
+    if (points.empty())
+        return true;
+
+    glBindVertexArray(_vert_array);
+    glBindBuffer(GL_ARRAY_BUFFER, _vert_buffer);
+    glBufferData(GL_ARRAY_BUFFER, points.size() * sizeof(Vertex), points.data(), GL_STATIC_DRAW);
+
+    // Position attribute
+    glVertexAttribPointer(0, 2, GL_FLOAT, GL_FALSE, sizeof(Vertex), (void*)0);
+    glEnableVertexAttribArray(0);
+
+    glBindBuffer(GL_ARRAY_BUFFER, 0);
+    glBindVertexArray(0);
+
+    glBindVertexArray(_vert_array);
+    glDrawArrays(GL_POINTS, 0, points.size());
+
+    glBindVertexArray(0);
+    glBindBuffer(GL_ARRAY_BUFFER, 0);
+
+    return true;
+}
+
+void Renderer::init_internal(const std::string &vertexSource, const std::string &geometrySource, const std::string &fragmentSource)
 {
     _shader.init(vertexSource, geometrySource, fragmentSource);
     glGenVertexArrays(1, &_vert_array);
@@ -42,7 +68,7 @@ void Renderer::cleanup_internal(void)
     _vert_buffer = 0;
 }
 
-Viewport Renderer::get_viewport(void)
+Viewport Renderer::get_context_viewport(void)
 {
     Viewport vp;
     glGetIntegerv(GL_VIEWPORT, (GLint*)&vp);

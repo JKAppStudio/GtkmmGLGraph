@@ -16,6 +16,7 @@
 
 #include <epoxy/gl.h>
 #include <string>
+#include <vector>
 
 namespace Gtkmm{
 namespace GLGraph{
@@ -35,6 +36,15 @@ struct Rect{
     T x, y, width, height;
 };
 
+template<typename T>
+struct Vec2{
+    T x, y;
+};
+
+template<typename T>
+struct Vec3{
+    T x, y, z;
+};
 #pragma pack(pop)
 
 class Renderer{
@@ -44,17 +54,26 @@ public:
 
     virtual void init(void) = 0;
     virtual void cleanup(void) = 0;
+    static Viewport get_context_viewport(void); 
+
+    void set_ndc(const Vec2<float>& ndc) { _ndc = ndc; }
+    void set_ndc_draw_rect(const Rect<float>& rect) { _ndc_draw_rect = rect; }
+    void set_draw_rect(const Rect<int>& draw_rect) { _draw_rect = draw_rect; }
 
 protected:
     void init_internal(const std::string& vertexSource, const std::string& geometrySource, const std::string& fragmentSource);
     void cleanup_internal(void);
-
-    Viewport get_viewport(void); 
+    
+    bool draw_points(const std::vector<Vertex>& points);
 
 protected:
     Shader _shader;
     GLuint _vert_array = 0;
     GLuint _vert_buffer = 0;
+
+    Vec2<float> _ndc{1.0f, 1.0f};
+    Rect<float> _ndc_draw_rect{-1.0f, -1.0f, 1.0f, 1.0f};
+    Rect<int> _draw_rect{0, 0, 800, 600};
 };
 
 // extern float vertices[15];

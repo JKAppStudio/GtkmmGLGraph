@@ -15,10 +15,9 @@
 using namespace Gtkmm::GLGraph;
 
 GLGraph::GLGraph() {
-    _title.set_text("Graph Title");
-    attach(_title, 0, 0, 1, 1);
     attach(_plotArea, 0, 1, 1, 1);
     _plotArea.set_expand();
+    _plotArea.set_size_request(MIN_PLOT_AREA_SIZE_X, MIN_PLOT_AREA_SIZE_Y);
 }
 
 GLGraph::~GLGraph() {

@@ -27,7 +27,8 @@ public:
     virtual ~GLGraph();
 
 protected:
-
+    static const int MIN_PLOT_AREA_SIZE_X {150};
+    static const int MIN_PLOT_AREA_SIZE_Y {170};
 private:
     PlotArea _plotArea;
 };

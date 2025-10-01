@@ -27,13 +27,26 @@ public:
     PlotArea(void);
     virtual ~PlotArea();
 
+    Gdk::RGBA bg_color(void) const { return _bg_color; }
+    void set_bg_color(const Gdk::RGBA& color) { _bg_color = color; queue_draw(); }
+
 protected:
     bool on_render(const Glib::RefPtr<Gdk::GLContext>& context) override;
     void on_realize(void) override;
     void on_unrealize(void) override;
 
+protected:
+    static const int X_AXIS_PADDING_LEFT    {40};
+    static const int X_AXIS_PADDING_RIGHT   {10};
+    static const int Y_AXIS_PADDING_TOP     {30};
+    static const int Y_AXIS_PADDING_BOTTOM  {40};
+
 private:
-    std::vector<Axis> _axes;
+    Axis _axis_x;
+    Axis _axis_y; 
+
+    Gdk::RGBA _bg_color = Gdk::RGBA("White");
+
     XYAxisRenderer _axes_renderer;
 };
 
